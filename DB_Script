@@ -1,0 +1,219 @@
+USE [master]
+GO
+/****** Object:  Database [ParcialAdmin]    Script Date: 4/26/2020 9:39:19 AM ******/
+CREATE DATABASE [ParcialAdmin]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'ParcialAdmin', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\ParcialAdmin.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'ParcialAdmin_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\ParcialAdmin_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [ParcialAdmin] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [ParcialAdmin].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [ParcialAdmin] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [ParcialAdmin] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [ParcialAdmin] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [ParcialAdmin] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [ParcialAdmin] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [ParcialAdmin] SET  MULTI_USER 
+GO
+ALTER DATABASE [ParcialAdmin] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [ParcialAdmin] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [ParcialAdmin] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [ParcialAdmin] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [ParcialAdmin] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [ParcialAdmin] SET QUERY_STORE = OFF
+GO
+USE [ParcialAdmin]
+GO
+/****** Object:  Table [dbo].[Pago_Detalle]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Pago_Detalle](
+	[Id_Pago_Detalle] [int] IDENTITY(1,1) NOT NULL,
+	[Descripcion] [varchar](50) NULL,
+	[Monto] [decimal](18, 0) NULL,
+ CONSTRAINT [PK_Pago_Detalle] PRIMARY KEY CLUSTERED 
+(
+	[Id_Pago_Detalle] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Propietario]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Propietario](
+	[Id_Propietario] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](50) NULL,
+	[Apelllido] [varchar](50) NULL,
+	[DPI] [int] NULL,
+	[Telefono] [int] NULL,
+	[Direccion] [varchar](50) NULL,
+ CONSTRAINT [PK_Propietario] PRIMARY KEY CLUSTERED 
+(
+	[Id_Propietario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Recibo]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Recibo](
+	[Id_Recibo] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Tereno] [int] NULL,
+	[Id_Pago_Detalle] [int] NULL,
+	[Fecha] [date] NOT NULL,
+	[Mes] [date] NULL,
+ CONSTRAINT [PK_Recibo] PRIMARY KEY CLUSTERED 
+(
+	[Id_Recibo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Terreno]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Terreno](
+	[Id_Terreno] [int] IDENTITY(1,1) NOT NULL,
+	[Id_Propietario] [int] NULL,
+	[Lote] [varchar](5) NULL,
+	[Direccion] [varchar](50) NULL,
+	[Solvencia] [bit] NULL,
+ CONSTRAINT [PK_Terreno] PRIMARY KEY CLUSTERED 
+(
+	[Id_Terreno] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Pago_Detalle] ON 
+
+INSERT [dbo].[Pago_Detalle] ([Id_Pago_Detalle], [Descripcion], [Monto]) VALUES (1, N'Cuota Mensual', CAST(100 AS Decimal(18, 0)))
+INSERT [dbo].[Pago_Detalle] ([Id_Pago_Detalle], [Descripcion], [Monto]) VALUES (2, N'Otro', CAST(50 AS Decimal(18, 0)))
+SET IDENTITY_INSERT [dbo].[Pago_Detalle] OFF
+SET IDENTITY_INSERT [dbo].[Propietario] ON 
+
+INSERT [dbo].[Propietario] ([Id_Propietario], [Nombre], [Apelllido], [DPI], [Telefono], [Direccion]) VALUES (1, N'Juan', N'Arrevalo', 881881881, 111111, N'4ta. Av #8')
+INSERT [dbo].[Propietario] ([Id_Propietario], [Nombre], [Apelllido], [DPI], [Telefono], [Direccion]) VALUES (2, N'Rigoberta', N'Menchu', 89898989, 22222, N'4at. Av #9')
+SET IDENTITY_INSERT [dbo].[Propietario] OFF
+SET IDENTITY_INSERT [dbo].[Recibo] ON 
+
+INSERT [dbo].[Recibo] ([Id_Recibo], [Id_Tereno], [Id_Pago_Detalle], [Fecha], [Mes]) VALUES (1, 3, 1, CAST(N'2020-04-24' AS Date), CAST(N'2020-11-01' AS Date))
+INSERT [dbo].[Recibo] ([Id_Recibo], [Id_Tereno], [Id_Pago_Detalle], [Fecha], [Mes]) VALUES (2, 2, 1, CAST(N'2020-04-25' AS Date), NULL)
+SET IDENTITY_INSERT [dbo].[Recibo] OFF
+SET IDENTITY_INSERT [dbo].[Terreno] ON 
+
+INSERT [dbo].[Terreno] ([Id_Terreno], [Id_Propietario], [Lote], [Direccion], [Solvencia]) VALUES (1, 1, NULL, N'5ta. Av #8', 0)
+INSERT [dbo].[Terreno] ([Id_Terreno], [Id_Propietario], [Lote], [Direccion], [Solvencia]) VALUES (2, 2, NULL, N'5ta. Av #9', 1)
+INSERT [dbo].[Terreno] ([Id_Terreno], [Id_Propietario], [Lote], [Direccion], [Solvencia]) VALUES (3, 1, N'8', N'5ta. Av #7', 0)
+SET IDENTITY_INSERT [dbo].[Terreno] OFF
+ALTER TABLE [dbo].[Recibo] ADD  CONSTRAINT [DF_Recibo_Fecha]  DEFAULT (getdate()) FOR [Fecha]
+GO
+ALTER TABLE [dbo].[Recibo]  WITH CHECK ADD  CONSTRAINT [FK_Recibo_Pago_Detalle] FOREIGN KEY([Id_Pago_Detalle])
+REFERENCES [dbo].[Pago_Detalle] ([Id_Pago_Detalle])
+GO
+ALTER TABLE [dbo].[Recibo] CHECK CONSTRAINT [FK_Recibo_Pago_Detalle]
+GO
+ALTER TABLE [dbo].[Recibo]  WITH CHECK ADD  CONSTRAINT [FK_Recibo_Terreno] FOREIGN KEY([Id_Tereno])
+REFERENCES [dbo].[Terreno] ([Id_Terreno])
+GO
+ALTER TABLE [dbo].[Recibo] CHECK CONSTRAINT [FK_Recibo_Terreno]
+GO
+ALTER TABLE [dbo].[Terreno]  WITH CHECK ADD  CONSTRAINT [FK_Terreno_Propietario] FOREIGN KEY([Id_Propietario])
+REFERENCES [dbo].[Propietario] ([Id_Propietario])
+GO
+ALTER TABLE [dbo].[Terreno] CHECK CONSTRAINT [FK_Terreno_Propietario]
+GO
+/****** Object:  StoredProcedure [dbo].[estados_Cuenta]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Procedure [dbo].[estados_Cuenta]
+@Idbusqueda int 
+as
+SELECT Propietario.Id_Propietario, Propietario.Nombre, Propietario.Apelllido, Terreno.Lote, Terreno.Direccion, Recibo.Id_Tereno, Recibo.Fecha, Recibo.Mes, Pago_Detalle.Monto, Pago_Detalle.Descripcion
+FROM     Pago_Detalle INNER JOIN
+                  Recibo ON Pago_Detalle.Id_Pago_Detalle = Recibo.Id_Pago_Detalle INNER JOIN
+                  Terreno ON Recibo.Id_Tereno = Terreno.Id_Terreno INNER JOIN
+                  Propietario ON Terreno.Id_Propietario = Propietario.Id_Propietario
+				  Where Propietario.Id_Propietario = @Idbusqueda
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[lista_deudores]    Script Date: 4/26/2020 9:39:19 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE procedure [dbo].[lista_deudores]
+as 
+SELECT Propietario.Id_Propietario, Propietario.Nombre, Propietario.Apelllido, Terreno.Lote, Terreno.Direccion, Terreno.Solvencia
+FROM     Propietario INNER JOIN
+                  Terreno ON Propietario.Id_Propietario = Terreno.Id_Propietario
+				WHERE Terreno.Solvencia = 0 or Terreno.Solvencia =  'False'
+				
+GO
+USE [master]
+GO
+ALTER DATABASE [ParcialAdmin] SET  READ_WRITE 
+GO
