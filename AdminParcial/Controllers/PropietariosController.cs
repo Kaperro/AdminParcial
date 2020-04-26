@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AdminParcial.Models;
 using AdminParcial.Models.DB;
+using FastReport;
+using FastReport.Export.PdfSimple;
+using FastReport.Utils;
 
 namespace AdminParcial.Controllers
 {
@@ -122,6 +127,109 @@ namespace AdminParcial.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Deudores()
+        {
+            var propietarios = db.Propietarios
+                .Include(x => x.Terrenoes)
+                .ToList();
+
+            var temp = new List<PropietarioDTO>();
+            foreach (var item in propietarios)
+            {
+                if(item.Terrenoes.Any(x => !x.Solvencia.GetValueOrDefault()))
+                {
+                    continue;
+                }
+                else
+                {
+                    temp.Add(new PropietarioDTO() { Nombre = item.Nombre, Apellido = item.Apelllido});
+                }
+            }
+
+            Report report = new Report();
+
+            string thisFolder = Config.ApplicationFolder;
+
+            string path = Path.Combine(thisFolder, "Reportes\\Deudores.frx");
+            string fullPath = Path.GetFullPath(path);
+
+            report.Load(fullPath);
+
+            report.RegisterData(temp, "Propietario");
+
+            var fecha = DateTime.Now.ToLongDateString();
+
+            report.SetParameterValue("Fecha", fecha);
+
+            var nombreArchivo = $"{fecha} Deudores.pdf";
+
+            report.Prepare();
+
+            PDFSimpleExport export = new PDFSimpleExport();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                export.Export(report, ms);
+                ms.Flush();
+                return File(ms.ToArray(), "application/pdf", nombreArchivo);
+            }
+        }
+
+        public ActionResult EstadoDeCuenta(long id)
+        {
+            var propietario = db.Propietarios
+                .Where(x => x.Id_Propietario == id)
+                .Include(x => x.Terrenoes)
+                .FirstOrDefault();
+
+            var temp = new List<EstadoCuentaDTO>();
+            var nombrePropietario = $"{propietario.Nombre} {propietario.Apelllido}";
+
+            var total = 0m;
+            foreach (var item in propietario.Terrenoes)
+            {
+                if (!item.Solvencia.GetValueOrDefault())
+                {
+                    continue;
+                }
+                var suma = 0m;
+                foreach (var recibo in item.Reciboes)
+                {
+                    suma += recibo.Pago_Detalle.Monto.GetValueOrDefault();
+                }
+                temp.Add(new EstadoCuentaDTO() { Direccion = $"{item.Direccion} Lote {item.Lote}", Monto = suma.ToString("F")});
+                total += suma;
+            }
+
+            Report report = new Report();
+
+            string thisFolder = Config.ApplicationFolder;
+
+            string path = Path.Combine(thisFolder, "Reportes\\EstadoCuenta.frx");
+            string fullPath = Path.GetFullPath(path);
+
+            report.Load(fullPath);
+
+            report.RegisterData(temp, "EstadoCuenta");
+
+            var fecha = DateTime.Now.ToLongDateString();
+
+            report.SetParameterValue("Fecha", fecha);
+            report.SetParameterValue("Propietario", nombrePropietario);
+            report.SetParameterValue("Total", total.ToString("F"));
+
+            var nombreArchivo = $"{fecha} {nombrePropietario} Estado de Cuenta.pdf";
+
+            report.Prepare();
+
+            PDFSimpleExport export = new PDFSimpleExport();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                export.Export(report, ms);
+                ms.Flush();
+                return File(ms.ToArray(), "application/pdf", nombreArchivo);
+            }
         }
     }
 }

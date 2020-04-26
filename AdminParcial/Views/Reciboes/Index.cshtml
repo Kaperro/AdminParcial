@@ -41,9 +41,10 @@
             @Html.DisplayFor(modelItem => item.Terreno.Lote)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Recibo }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Recibo }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Recibo })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Recibo }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Recibo }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Recibo }) |
+            @Html.ActionLink("Impresion", "Impresion", new { id = item.Id_Recibo })
         </td>
     </tr>
 }

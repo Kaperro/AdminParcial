@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/09/2019 22:08:05" ReportInfo.Modified="04/26/2020 12:53:20" ReportInfo.CreatorVersion="2019.3.0.0">
+  <Styles>
+    <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
+    <Style Name="Header" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Group" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Data" Font="Arial, 10pt"/>
+    <Style Name="Footer" Font="Arial, 10pt"/>
+    <Style Name="EvenRows" Font="Arial, 10pt"/>
+  </Styles>
+  <Dictionary>
+    <BusinessObjectDataSource Name="Recibo" ReferenceName="Recibo" DataType="null" Enabled="true">
+      <Column Name="Detalle" DataType="System.String"/>
+      <Column Name="Monto" DataType="System.String"/>
+    </BusinessObjectDataSource>
+    <Parameter Name="Propietario" DataType="System.String"/>
+    <Parameter Name="Lote" DataType="System.String"/>
+    <Parameter Name="Fecha" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="215.9" PaperHeight="80" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="740.5" Height="85.05">
+      <TextObject Name="Text6" Width="207.9" Height="18.9" Text="Lotes" HorzAlign="Center" Font="Times New Roman, 12pt, style=Bold"/>
+      <TextObject Name="Text8" Left="510.3" Width="236.25" Height="18.9" Text="Fecha [Fecha]" HorzAlign="Center" VertAlign="Center" Font="Times New Roman, 8pt, style=Bold, Italic"/>
+      <TextObject Name="Text66" Left="160.65" Top="66.15" Width="207.9" Height="18.9" Text="Detalle" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text67" Left="387.45" Top="66.15" Width="122.85" Height="18.9" Text="Monto" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text24" Left="378" Top="37.8" Width="66.15" Height="18.9" Text="Direccion" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text28" Left="444.15" Top="37.8" Width="264.6" Height="18.9" Text="[Lote]" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text75" Top="37.8" Width="75.6" Height="18.9" Text="Propietario" VertAlign="Center" Font="Arial, 9pt, style=Bold"/>
+      <TextObject Name="Text76" Left="75.6" Top="37.8" Width="283.5" Height="18.9" Text="[Propietario]" HorzAlign="Center" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text48" Left="292.95" Width="113.4" Height="18.9" Text="Recibo" HorzAlign="Center" VertAlign="Center" Font="Arial, 12pt, style=Bold"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="88.25" Width="740.5" Height="28.35" EvenStyle="EvenRows">
+      <TextObject Name="Text2" Left="160.65" Width="207.9" Height="18.9" Text="[Recibo.Detalle]" VertAlign="Center" Font="Arial, 9pt"/>
+      <TextObject Name="Text17" Left="387.45" Width="122.85" Height="18.9" Text="[Recibo.Monto]" VertAlign="Center" Font="Arial, 9pt"/>
+      <LineObject Name="Line2" Left="378" Height="28.35" Diagonal="true"/>
+      <LineObject Name="Line3" Left="378" Top="9.45" Height="-37.8" Diagonal="true"/>
+      <LineObject Name="Line4" Left="151.2" Top="9.45" Height="-37.8" Diagonal="true"/>
+      <LineObject Name="Line5" Left="151.2" Height="28.35" Diagonal="true"/>
+      <LineObject Name="Line6" Left="529.2" Top="9.45" Height="-37.8" Diagonal="true"/>
+      <LineObject Name="Line7" Left="529.2" Height="28.35" Diagonal="true"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="119.8" Width="740.5" Height="37.8">
+      <TextObject Name="Text43" Top="28.35" Width="746.55" Height="9.45" Text="Lotes" HorzAlign="Center" VertAlign="Center" Font="Arial, 7pt"/>
+      <LineObject Name="Line1" Left="-5.05" Top="15.85" Width="746.55" Diagonal="true"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

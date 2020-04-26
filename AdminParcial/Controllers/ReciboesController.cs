@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AdminParcial.Models.DB;
+using FastReport;
+using FastReport.Export.PdfSimple;
+using FastReport.Utils;
 
 namespace AdminParcial.Controllers
 {
@@ -131,6 +135,49 @@ namespace AdminParcial.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // GET: Impresion
+        public ActionResult Impresion(long id)
+        {
+            var recibo = db.Reciboes
+                .Where(r => r.Id_Recibo == id)
+                .Include(r => r.Pago_Detalle)
+                .Include(r => r.Terreno)
+                .FirstOrDefault();
+
+            Report report = new Report();
+
+            string thisFolder = Config.ApplicationFolder;
+
+            string path = Path.Combine(thisFolder, "Reportes\\Recibo.frx");
+            string fullPath = Path.GetFullPath(path);
+
+            report.Load(fullPath);
+
+            var detalles = new List<Pago_Detalle>() { recibo.Pago_Detalle };
+
+            report.RegisterData(detalles, "Recibo");
+
+            var nombrePropietario = $"{recibo.Terreno.Propietario.Nombre} {recibo.Terreno.Propietario.Apelllido}";
+            var fecha = DateTime.Now.ToLongDateString();
+            var lote = $"{recibo.Terreno.Direccion} Lote: {recibo.Terreno.Lote}";
+
+            report.SetParameterValue("Propietario", nombrePropietario);
+            report.SetParameterValue("Fecha", fecha);
+            report.SetParameterValue("Lote", lote);
+
+            var nombreArchivo = $"{fecha} {nombrePropietario}.pdf";
+
+            report.Prepare();
+
+            PDFSimpleExport export = new PDFSimpleExport();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                export.Export(report, ms);
+                ms.Flush();
+                return File(ms.ToArray(), "application/pdf", nombreArchivo);
+            }
         }
     }
 }

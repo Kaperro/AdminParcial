@@ -8,6 +8,8 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    <hr />
+    @Html.ActionLink("Deudores", "Deudores")
 </p>
 <table class="table">
     <tr>
@@ -47,9 +49,10 @@
             @Html.DisplayFor(modelItem => item.Direccion)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Propietario }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Propietario }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Propietario })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Propietario }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Propietario }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Propietario })
+            @Html.ActionLink("Estado de Cuenta", "EstadoDeCuenta", new { id = item.Id_Propietario })
         </td>
     </tr>
 }
