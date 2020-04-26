@@ -12,6 +12,8 @@ namespace AdminParcial.Models.DB
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ParcialAdminEntities : DbContext
     {
@@ -30,5 +32,19 @@ namespace AdminParcial.Models.DB
         public virtual DbSet<Recibo> Reciboes { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Terreno> Terrenoes { get; set; }
+    
+        public virtual ObjectResult<estados_Cuenta_Result> estados_Cuenta(Nullable<int> idbusqueda)
+        {
+            var idbusquedaParameter = idbusqueda.HasValue ?
+                new ObjectParameter("Idbusqueda", idbusqueda) :
+                new ObjectParameter("Idbusqueda", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<estados_Cuenta_Result>("estados_Cuenta", idbusquedaParameter);
+        }
+    
+        public virtual ObjectResult<lista_deudores_Result> lista_deudores()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<lista_deudores_Result>("lista_deudores");
+        }
     }
 }

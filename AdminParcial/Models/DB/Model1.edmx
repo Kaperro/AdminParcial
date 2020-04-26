@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ParcialAdminModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ParcialAdminModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Pago_Detalle">
           <Key>
             <PropertyRef Name="Id_Pago_Detalle" />
@@ -90,6 +90,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="estados_Cuenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Idbusqueda" Type="int" Mode="In" />
+        </Function>
+        <Function Name="lista_deudores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ParcialAdminModelStoreContainer">
           <EntitySet Name="Pago_Detalle" EntityType="Self.Pago_Detalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
@@ -109,8 +113,7 @@
             <End Role="Terreno" EntitySet="Terreno" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ParcialAdminModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -223,7 +226,31 @@
             <End Role="Terreno" EntitySet="Terrenoes" />
             <End Role="Recibo" EntitySet="Reciboes" />
           </AssociationSet>
+          <FunctionImport Name="estados_Cuenta" ReturnType="Collection(ParcialAdminModel.estados_Cuenta_Result)">
+            <Parameter Name="Idbusqueda" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="lista_deudores" ReturnType="Collection(ParcialAdminModel.lista_deudores_Result)" />
         </EntityContainer>
+        <ComplexType Name="estados_Cuenta_Result">
+          <Property Type="Int32" Name="Id_Propietario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Apelllido" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Tereno" Nullable="true" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="DateTime" Name="Mes" Nullable="true" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="lista_deudores_Result">
+          <Property Type="Int32" Name="Id_Propietario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Apelllido" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Lote" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Solvencia" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -284,6 +311,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="estados_Cuenta" FunctionName="ParcialAdminModel.Store.estados_Cuenta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ParcialAdminModel.estados_Cuenta_Result">
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apelllido" ColumnName="Apelllido" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Id_Tereno" ColumnName="Id_Tereno" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="lista_deudores" FunctionName="ParcialAdminModel.Store.lista_deudores">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ParcialAdminModel.lista_deudores_Result">
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apelllido" ColumnName="Apelllido" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Solvencia" ColumnName="Solvencia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

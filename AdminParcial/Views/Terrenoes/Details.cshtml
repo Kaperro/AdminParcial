@@ -1,0 +1,50 @@
+﻿@model AdminParcial.Models.DB.Terreno
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Terreno</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Lote)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lote)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solvencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solvencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Propietario.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Propietario.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Terreno }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
