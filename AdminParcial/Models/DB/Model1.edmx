@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ParcialAdminModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Pago_Detalle">
+          <Key>
+            <PropertyRef Name="Id_Pago_Detalle" />
+          </Key>
+          <Property Name="Id_Pago_Detalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Propietario">
+          <Key>
+            <PropertyRef Name="Id_Propietario" />
+          </Key>
+          <Property Name="Id_Propietario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Apelllido" Type="varchar" MaxLength="50" />
+          <Property Name="DPI" Type="int" />
+          <Property Name="Telefono" Type="int" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Recibo">
+          <Key>
+            <PropertyRef Name="Id_Recibo" />
+          </Key>
+          <Property Name="Id_Recibo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Tereno" Type="int" />
+          <Property Name="Id_Pago_Detalle" Type="int" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Mes" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Terreno">
+          <Key>
+            <PropertyRef Name="Id_Terreno" />
+          </Key>
+          <Property Name="Id_Terreno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Propietario" Type="int" />
+          <Property Name="Lote" Type="varchar" MaxLength="5" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Solvencia" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Recibo_Pago_Detalle">
+          <End Role="Pago_Detalle" Type="Self.Pago_Detalle" Multiplicity="0..1" />
+          <End Role="Recibo" Type="Self.Recibo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pago_Detalle">
+              <PropertyRef Name="Id_Pago_Detalle" />
+            </Principal>
+            <Dependent Role="Recibo">
+              <PropertyRef Name="Id_Pago_Detalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recibo_Terreno">
+          <End Role="Terreno" Type="Self.Terreno" Multiplicity="0..1" />
+          <End Role="Recibo" Type="Self.Recibo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terreno">
+              <PropertyRef Name="Id_Terreno" />
+            </Principal>
+            <Dependent Role="Recibo">
+              <PropertyRef Name="Id_Tereno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Terreno_Propietario">
+          <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+          <End Role="Terreno" Type="Self.Terreno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propietario">
+              <PropertyRef Name="Id_Propietario" />
+            </Principal>
+            <Dependent Role="Terreno">
+              <PropertyRef Name="Id_Propietario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ParcialAdminModelStoreContainer">
+          <EntitySet Name="Pago_Detalle" EntityType="Self.Pago_Detalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Propietario" EntityType="Self.Propietario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recibo" EntityType="Self.Recibo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Terreno" EntityType="Self.Terreno" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Recibo_Pago_Detalle" Association="Self.FK_Recibo_Pago_Detalle">
+            <End Role="Pago_Detalle" EntitySet="Pago_Detalle" />
+            <End Role="Recibo" EntitySet="Recibo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recibo_Terreno" Association="Self.FK_Recibo_Terreno">
+            <End Role="Terreno" EntitySet="Terreno" />
+            <End Role="Recibo" EntitySet="Recibo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Terreno_Propietario" Association="Self.FK_Terreno_Propietario">
+            <End Role="Propietario" EntitySet="Propietario" />
+            <End Role="Terreno" EntitySet="Terreno" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ParcialAdminModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pago_Detalle">
+          <Key>
+            <PropertyRef Name="Id_Pago_Detalle" />
+          </Key>
+          <Property Name="Id_Pago_Detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Reciboes" Relationship="Self.FK_Recibo_Pago_Detalle" FromRole="Pago_Detalle" ToRole="Recibo" />
+        </EntityType>
+        <EntityType Name="Propietario">
+          <Key>
+            <PropertyRef Name="Id_Propietario" />
+          </Key>
+          <Property Name="Id_Propietario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apelllido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DPI" Type="Int32" />
+          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Terrenoes" Relationship="Self.FK_Terreno_Propietario" FromRole="Propietario" ToRole="Terreno" />
+        </EntityType>
+        <EntityType Name="Recibo">
+          <Key>
+            <PropertyRef Name="Id_Recibo" />
+          </Key>
+          <Property Name="Id_Recibo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Tereno" Type="Int32" />
+          <Property Name="Id_Pago_Detalle" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Mes" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Pago_Detalle" Relationship="Self.FK_Recibo_Pago_Detalle" FromRole="Recibo" ToRole="Pago_Detalle" />
+          <NavigationProperty Name="Terreno" Relationship="Self.FK_Recibo_Terreno" FromRole="Recibo" ToRole="Terreno" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Terreno">
+          <Key>
+            <PropertyRef Name="Id_Terreno" />
+          </Key>
+          <Property Name="Id_Terreno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Propietario" Type="Int32" />
+          <Property Name="Lote" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Solvencia" Type="Boolean" />
+          <NavigationProperty Name="Propietario" Relationship="Self.FK_Terreno_Propietario" FromRole="Terreno" ToRole="Propietario" />
+          <NavigationProperty Name="Reciboes" Relationship="Self.FK_Recibo_Terreno" FromRole="Terreno" ToRole="Recibo" />
+        </EntityType>
+        <Association Name="FK_Recibo_Pago_Detalle">
+          <End Role="Pago_Detalle" Type="Self.Pago_Detalle" Multiplicity="0..1" />
+          <End Role="Recibo" Type="Self.Recibo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pago_Detalle">
+              <PropertyRef Name="Id_Pago_Detalle" />
+            </Principal>
+            <Dependent Role="Recibo">
+              <PropertyRef Name="Id_Pago_Detalle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Terreno_Propietario">
+          <End Role="Propietario" Type="Self.Propietario" Multiplicity="0..1" />
+          <End Role="Terreno" Type="Self.Terreno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Propietario">
+              <PropertyRef Name="Id_Propietario" />
+            </Principal>
+            <Dependent Role="Terreno">
+              <PropertyRef Name="Id_Propietario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recibo_Terreno">
+          <End Role="Terreno" Type="Self.Terreno" Multiplicity="0..1" />
+          <End Role="Recibo" Type="Self.Recibo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terreno">
+              <PropertyRef Name="Id_Terreno" />
+            </Principal>
+            <Dependent Role="Recibo">
+              <PropertyRef Name="Id_Tereno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ParcialAdminEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Pago_Detalle" EntityType="Self.Pago_Detalle" />
+          <EntitySet Name="Propietarios" EntityType="Self.Propietario" />
+          <EntitySet Name="Reciboes" EntityType="Self.Recibo" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Terrenoes" EntityType="Self.Terreno" />
+          <AssociationSet Name="FK_Recibo_Pago_Detalle" Association="Self.FK_Recibo_Pago_Detalle">
+            <End Role="Pago_Detalle" EntitySet="Pago_Detalle" />
+            <End Role="Recibo" EntitySet="Reciboes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Terreno_Propietario" Association="Self.FK_Terreno_Propietario">
+            <End Role="Propietario" EntitySet="Propietarios" />
+            <End Role="Terreno" EntitySet="Terrenoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recibo_Terreno" Association="Self.FK_Recibo_Terreno">
+            <End Role="Terreno" EntitySet="Terrenoes" />
+            <End Role="Recibo" EntitySet="Reciboes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ParcialAdminModelStoreContainer" CdmEntityContainer="ParcialAdminEntities">
+          <EntitySetMapping Name="Pago_Detalle">
+            <EntityTypeMapping TypeName="ParcialAdminModel.Pago_Detalle">
+              <MappingFragment StoreEntitySet="Pago_Detalle">
+                <ScalarProperty Name="Id_Pago_Detalle" ColumnName="Id_Pago_Detalle" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Propietarios">
+            <EntityTypeMapping TypeName="ParcialAdminModel.Propietario">
+              <MappingFragment StoreEntitySet="Propietario">
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apelllido" ColumnName="Apelllido" />
+                <ScalarProperty Name="DPI" ColumnName="DPI" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reciboes">
+            <EntityTypeMapping TypeName="ParcialAdminModel.Recibo">
+              <MappingFragment StoreEntitySet="Recibo">
+                <ScalarProperty Name="Id_Recibo" ColumnName="Id_Recibo" />
+                <ScalarProperty Name="Id_Tereno" ColumnName="Id_Tereno" />
+                <ScalarProperty Name="Id_Pago_Detalle" ColumnName="Id_Pago_Detalle" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Mes" ColumnName="Mes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ParcialAdminModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terrenoes">
+            <EntityTypeMapping TypeName="ParcialAdminModel.Terreno">
+              <MappingFragment StoreEntitySet="Terreno">
+                <ScalarProperty Name="Id_Terreno" ColumnName="Id_Terreno" />
+                <ScalarProperty Name="Id_Propietario" ColumnName="Id_Propietario" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Solvencia" ColumnName="Solvencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
