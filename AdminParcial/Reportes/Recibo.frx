@@ -10,7 +10,7 @@
   </Styles>
   <Dictionary>
     <BusinessObjectDataSource Name="Recibo" ReferenceName="Recibo" DataType="null" Enabled="true">
-      <Column Name="Detalle" DataType="System.String"/>
+<Column Name="Descripcion" DataType="System.String"/>
       <Column Name="Monto" DataType="System.String"/>
     </BusinessObjectDataSource>
     <Parameter Name="Propietario" DataType="System.String"/>
@@ -30,7 +30,7 @@
       <TextObject Name="Text48" Left="292.95" Width="113.4" Height="18.9" Text="Recibo" HorzAlign="Center" VertAlign="Center" Font="Arial, 12pt, style=Bold"/>
     </PageHeaderBand>
     <DataBand Name="Data1" Top="88.25" Width="740.5" Height="28.35" EvenStyle="EvenRows">
-      <TextObject Name="Text2" Left="160.65" Width="207.9" Height="18.9" Text="[Recibo.Detalle]" VertAlign="Center" Font="Arial, 9pt"/>
+<TextObject Name="Text2" Left="160.65" Width="207.9" Height="18.9" Text="[Recibo.Descripcion]" VertAlign="Center" Font="Arial, 9pt"/>
       <TextObject Name="Text17" Left="387.45" Width="122.85" Height="18.9" Text="[Recibo.Monto]" VertAlign="Center" Font="Arial, 9pt"/>
       <LineObject Name="Line2" Left="378" Height="28.35" Diagonal="true"/>
       <LineObject Name="Line3" Left="378" Top="9.45" Height="-37.8" Diagonal="true"/>
